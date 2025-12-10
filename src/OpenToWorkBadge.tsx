@@ -28,6 +28,8 @@ export interface OpenToWorkBadgeProps {
   className?: string;
   /** Custom CSS styles for the container */
   style?: React.CSSProperties;
+  /** Custom CSS styles for the text element */
+  textStyle?: React.CSSProperties;
   /** Whether to include fade-in animation (default: false) */
   animate?: boolean;
   /** Position for absolute positioning - if provided, badge will be absolutely positioned */
@@ -53,6 +55,7 @@ const OpenToWorkBadge: React.FC<OpenToWorkBadgeProps> = ({
   textPath,
   className = '',
   style,
+  textStyle,
   animate = false,
   position,
 }) => {
@@ -111,6 +114,11 @@ const OpenToWorkBadge: React.FC<OpenToWorkBadgeProps> = ({
 
   const textFontSize = size * 0.09; // Scale font size with badge size
 
+  const textElementStyle: React.CSSProperties = {
+    fontSize: `${textFontSize}px`,
+    ...textStyle, // Allow overrides
+  };
+
   return (
     <div 
       className={`opentowork-badge-container ${animate ? 'fade-in-up' : ''} ${className}`.trim()}
@@ -141,8 +149,8 @@ const OpenToWorkBadge: React.FC<OpenToWorkBadgeProps> = ({
             </defs>
             <text 
               className="opentowork-badge-text"
-              fill="white"
-              style={{ fontSize: `${textFontSize}px` }}
+              fill={textStyle?.color || 'white'}
+              style={textElementStyle}
             >
               <textPath 
                 href={`#text-curve-${size}`} 

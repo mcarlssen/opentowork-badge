@@ -47,6 +47,7 @@ function App() {
 | `textPath` | `string` | `undefined` | Custom SVG path for text curve |
 | `className` | `string` | `""` | Additional CSS class names |
 | `style` | `React.CSSProperties` | `undefined` | Inline styles for container |
+| `textStyle` | `React.CSSProperties` | `undefined` | Inline styles for text element (color, fontSize, fontFamily, fontWeight, etc.) |
 | `animate` | `boolean` | `false` | Enable fade-in animation |
 | `position` | `{ left?, top?, right?, bottom? }` | `undefined` | Absolute positioning |
 
@@ -103,6 +104,22 @@ function App() {
 />
 ```
 
+### Custom Text Styling
+
+```tsx
+<OpenToWorkBadge
+  imageSrc="/images/profile.jpg"
+  imageAlt="Casey Davis"
+  textStyle={{
+    color: '#ffd700',
+    fontSize: '20px',
+    fontFamily: 'Arial, sans-serif',
+    fontWeight: 'bold',
+    letterSpacing: '0.1em',
+  }}
+/>
+```
+
 ### Using CSS Variables
 
 ```tsx
@@ -146,4 +163,8 @@ MIT
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## changelog
+
+- 2025-12-10 v1.1.0 Added text styling parameters.
 

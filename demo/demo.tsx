@@ -16,6 +16,10 @@ interface ProfileCardProps {
     borderColor?: string;
     gradientColor?: { r: number; g: number; b: number };
     size?: number;
+    badgeText?: string;
+    gradientAngle?: number;
+    textOffset?: number;
+    textStyle?: React.CSSProperties;
     position?: {
       top?: number;
       left?: number;
@@ -29,6 +33,10 @@ const formatBadgeProps = (profileImage: string, name: string, badgeConfig: {
   borderColor?: string;
   gradientColor?: { r: number; g: number; b: number };
   size?: number;
+  badgeText?: string;
+  gradientAngle?: number;
+  textOffset?: number;
+  textStyle?: React.CSSProperties;
   position?: {
     top?: number;
     left?: number;
@@ -52,6 +60,41 @@ const formatBadgeProps = (profileImage: string, name: string, badgeConfig: {
 
   if (badgeConfig.gradientColor !== undefined) {
     props.push(`gradientColor={{ r: ${badgeConfig.gradientColor.r}, g: ${badgeConfig.gradientColor.g}, b: ${badgeConfig.gradientColor.b} }}`);
+  }
+
+  if (badgeConfig.badgeText !== undefined) {
+    props.push(`badgeText="${badgeConfig.badgeText}"`);
+  }
+
+  if (badgeConfig.gradientAngle !== undefined) {
+    props.push(`gradientAngle={${badgeConfig.gradientAngle}}`);
+  }
+
+  if (badgeConfig.textOffset !== undefined) {
+    props.push(`textOffset={${badgeConfig.textOffset}}`);
+  }
+
+  if (badgeConfig.textStyle !== undefined) {
+    const textStyleProps: string[] = [];
+    if (badgeConfig.textStyle.color !== undefined) {
+      textStyleProps.push(`color: "${badgeConfig.textStyle.color}"`);
+    }
+    if (badgeConfig.textStyle.fontSize !== undefined) {
+      textStyleProps.push(`fontSize: "${badgeConfig.textStyle.fontSize}"`);
+    }
+    if (badgeConfig.textStyle.fontFamily !== undefined) {
+      textStyleProps.push(`fontFamily: "${badgeConfig.textStyle.fontFamily}"`);
+    }
+    if (badgeConfig.textStyle.fontWeight !== undefined) {
+      textStyleProps.push(`fontWeight: "${badgeConfig.textStyle.fontWeight}"`);
+    }
+    if (badgeConfig.textStyle.letterSpacing !== undefined) {
+      textStyleProps.push(`letterSpacing: "${badgeConfig.textStyle.letterSpacing}"`);
+    }
+    
+    if (textStyleProps.length > 0) {
+      props.push(`textStyle={{ ${textStyleProps.join(', ')} }}`);
+    }
   }
 
   // Only include position if it has at least one defined property
@@ -102,33 +145,45 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           {...(badgeConfig.borderColor !== undefined && { borderColor: badgeConfig.borderColor })}
           {...(badgeConfig.gradientColor !== undefined && { gradientColor: badgeConfig.gradientColor })}
           {...(badgeConfig.position !== undefined && Object.keys(badgeConfig.position).length > 0 && { position: badgeConfig.position })}
+          {...(badgeConfig.badgeText !== undefined && { badgeText: badgeConfig.badgeText })}
+          {...(badgeConfig.gradientAngle !== undefined && { gradientAngle: badgeConfig.gradientAngle })}
+          {...(badgeConfig.textOffset !== undefined && { textOffset: badgeConfig.textOffset })}
+          {...(badgeConfig.textStyle !== undefined && { textStyle: badgeConfig.textStyle })}
         />
       </div>
       <div className="profile-card__content">
         <div className="profile-card__info">
           <div className="profile-card__header">
             <h2 className="profile-card__name">{name}</h2>
-            <svg
-              className="profile-card__verified"
-              width="20"
-              height="20"
-              viewBox="0 0 256 256"
-              fill="#5AB0F7"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path>
-            </svg>
+            {name && (
+              <svg
+                className="profile-card__verified"
+                width="20"
+                height="20"
+                viewBox="0 0 256 256"
+                fill="#5AB0F7"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path>
+              </svg>
+            )}
           </div>
           <p className="profile-card__title">{title}</p>
           <p className="profile-card__location">{location}</p>
-          <div className="profile-card__employer">
-            <img
-              src={employerLogo}
-              alt=""
-              className="profile-card__employer-logo"
-            />
-            <span className="profile-card__employer-name">{employer}</span>
-          </div>
+          {(employer || employerLogo) && (
+            <div className="profile-card__employer">
+              {employerLogo && (
+                <img
+                  src={employerLogo}
+                  alt=""
+                  className="profile-card__employer-logo"
+                />
+              )}
+              {employer && (
+                <span className="profile-card__employer-name">{employer}</span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -147,8 +202,8 @@ const Demo: React.FC = () => {
       <div className="demo__cards">
         <div className="demo__card-wrapper">
           <ProfileCard
-            bannerImage="/placeholder-banner-dark.webp"
-            profileImage="/placeholder-profile-1.webp"
+            bannerImage="/placeholder-banner-unicorn.webp"
+            profileImage="/placeholder-profile-unicorn.webp"
             name="Marcus Johnson"
             title="Senior Software Engineer"
             location="San Francisco, California"
@@ -156,42 +211,66 @@ const Demo: React.FC = () => {
             employerLogo="/placeholder-logo-1.webp"
             theme="dark"
             badgeConfig={{
-              borderColor: '#d4ad00',
-              gradientColor: { r: 0, g: 102, b: 53 },
+              borderColor: '#D5A566',
+              gradientColor: { r: 30, g: 30, b: 30 },
               size: 168,
+              badgeText: '#unicorn',
+              gradientAngle: 130,
+              textOffset: 40,
+              position: { top: -10 },
             }}
           />
           <pre className="demo__code">
-            <code>{formatBadgeProps('/placeholder-profile-1.webp', 'Marcus Johnson', {
+            <code>{formatBadgeProps('/placeholder-profile-unicorn.webp', '', {
               borderColor: '#d4ad00',
-              gradientColor: { r: 0, g: 102, b: 53 },
-              size: 168,
+              gradientColor: { r: 30, g: 67, b: 68 },
+              size: 186,
+              badgeText: '#unicorn',
+              gradientAngle: 130,
+              textOffset: 40,
+              position: { top: -10 }
             })}</code>
           </pre>
         </div>
         <div className="demo__card-wrapper">
           <ProfileCard
-            bannerImage="/placeholder-banner-light.webp"
-            profileImage="/placeholder-profile-2.webp"
-            name="Alex Rivera"
-            title="Product Design Lead, UX"
-            location="Austin, Texas"
-            employer="Design Studio Inc."
-            employerLogo="/placeholder-logo-2.webp"
+            bannerImage="/placeholder-banner-soup.webp"
+            profileImage="/placeholder-profile-soup2.webp"
+            name=""
+            title=""
+            location=""
+            employer=""
+            employerLogo=""
             theme="light"
             badgeConfig={{
-              borderColor: '#0077b5',
-              gradientColor: { r: 0, g: 119, b: 181 },
-              size: 186,
-              position: { top: -10 },
+              badgeText: '#goodsoup!',
+              borderColor: '#FCE0BB',
+              gradientColor: { r: 252, g: 224, b: 187 },
+              gradientAngle: 180,
+              textOffset: -80,
+              position: { top: -10, left: -15},
+              textStyle: {
+                color: '#14332B',
+                fontWeight: 'bold',
+                fontSize: '32px',
+                letterSpacing: '0.08em'
+              },
             }}
           />
           <pre className="demo__code">
-            <code>{formatBadgeProps('/placeholder-profile-2.webp', 'Alex Rivera', {
-              borderColor: '#0077b5',
-              gradientColor: { r: 0, g: 119, b: 181 },
-              size: 186,
-              position: { top: -10 },
+            <code>{formatBadgeProps('/placeholder-profile-soup.webp', '', {
+              badgeText: '#goodsoup',
+              borderColor: '#FCE0BB',
+              gradientColor: { r: 252, g: 224, b: 187 },
+              gradientAngle: 180,
+              textOffset: -80,
+              position: { top: -10, left: -15},
+              textStyle: {
+                color: '#14332B',
+                fontWeight: 'bold',
+                fontSize: '32px',
+                letterSpacing: '0.08em'
+              },
             })}</code>
           </pre>
         </div>
