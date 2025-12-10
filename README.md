@@ -1,6 +1,8 @@
 # @mcarlssen/opentowork-badge
 
-A customizable React component for displaying a professional headshot with an '#opentowork' badge overlay, perfect for LinkedIn profiles and portfolio sites.
+A customizable React component for displaying a professional headshot with an '#opentowork' badge overlay, perfect for websites and portfolios.
+
+![OpenToWorkBadge Demo Screenshot](demo/public/demo-splash.webp)
 
 ## Installation
 
