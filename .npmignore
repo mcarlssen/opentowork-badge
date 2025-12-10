@@ -1,0 +1,16 @@
+src
+demo
+node_modules
+*.config.ts
+*.config.js
+tsconfig.json
+.git
+.gitignore
+.eslintrc*
+.prettierrc*
+.vscode
+.idea
+*.log
+.DS_Store
+setup.md
+

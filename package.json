@@ -1,0 +1,64 @@
+{
+  "name": "@mcarlssen/opentowork-badge",
+  "version": "1.0.0",
+  "description": "A customizable React component for displaying a professional headshot with an '#opentowork' badge overlay",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/OpenToWorkBadge.css"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "dev": "vite build --watch",
+    "demo": "vite --config vite.config.demo.ts",
+    "demo:build": "vite build --config vite.config.demo.ts",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "opentowork",
+    "badge",
+    "headshot",
+    "profile",
+    "linkedin",
+    "job-seeker"
+  ],
+  "author": "Mike Thorn <m@x38.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcarlssen/opentowork-badge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mcarlssen/opentowork-badge/issues"
+  },
+  "homepage": "https://github.com/mcarlssen/opentowork-badge#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}
+
